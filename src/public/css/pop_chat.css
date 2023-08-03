@@ -1,0 +1,263 @@
+@font-face {
+    font-family: 'Pretendard-Regular';
+    src: url('https://cdn.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+}
+body {
+    width: 1220px;
+    height: 97vh;
+    margin: 0;
+    font-family: 'Pretendard-Regular';
+}
+.fa{
+    font-weight: 900 !important;
+}
+/* chat 버튼 */
+.chat_open{
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: flex;
+    -webkit-box-pack: justify;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 100%;
+    max-width: 2rem;
+    height: 2rem;
+    padding: 1rem;
+    border: none;
+    background: navy;
+    border-radius: 1.375rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 28px 0px;
+    z-index: 977;
+    overflow: hidden;
+    transition: max-width 200ms cubic-bezier(0.46, 0.03, 0.52, 0.96) 0s
+}
+/* .chat_open:hover{
+    max-width: 10rem;
+} */
+.chat_open_btn{
+    width: 100%;
+    height: 100%;
+    border: none;
+    background-color: transparent;
+}
+
+/* chat 메인 */
+#chat{
+    width: 20vw;
+    margin: 0;
+    height: 70vh;
+    display: none;
+    bottom: 2rem;
+    right: 2rem;
+    position: fixed;
+    -webkit-box-pack: justify;
+    justify-content: space-between;
+    -webkit-box-align: center;
+    z-index: 977;
+}
+.chat_1{
+    width: 100%;
+    height: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-content: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+}
+
+.chat_main{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+}
+/* 채팅방 이름 */
+.c_roomname{
+    width: 100%;
+    height: 10%;
+    background-color: navy;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+.c_roomname_1{
+    width: 90%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.c_content_name{
+    width: 80%;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: white;
+}
+.c_c_name{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: white;
+    margin-right: 5%;
+    white-space: nowrap;
+}
+.c_content_num{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    color: white;
+}
+.c_content_mini{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.c_content_mini_btn{
+    border: none;
+    background-color: transparent;
+}
+.c_content_close{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.c_content_close_btn{
+    border: none;
+    background-color: transparent;
+}
+
+/* 채팅내용 */
+.c_main_content{
+    width: 100%;
+    height: 70%;
+    border-bottom: 1px solid black ;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+/* 채팅작성 및 전송 */
+.c_chatting{
+    width: 100%;
+    height: 20%;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+.c_chatting_form{
+    width: 99%;
+    height: 98%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.c_chatting_1{
+    width: 97%;
+    height: 60%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+}
+.form_input{
+    width: 100%;
+    height: 100%;
+    font-size: 17px;
+    border: none;
+    white-space: pre-wrap;  
+    font-family: 'Pretendard-Regular';
+    resize: none;
+}
+.c_chatting_2{
+    width: 100%;
+    height: 30%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.c_chatting_22{
+    width: 93%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-end;
+    font-family: 'Pretendard-Regular';
+}
+.c_chatting_2_btn{
+    border: none;
+    background-color: transparent;
+}
+
+/* chat 축소판 가:315.39 */
+.chat_mini{
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    display: none;
+    -webkit-box-pack: justify;
+    justify-content: center;
+    -webkit-box-align: center;
+    align-items: center;
+    width: 18.5vw;
+    height: 4.5vh;
+    padding: 1rem;
+    border: none;
+    background: navy;
+    border-radius: 1.375rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 6px 28px 0px;
+    z-index: 977;
+    overflow: hidden;
+    transition: max-width 200ms cubic-bezier(0.46, 0.03, 0.52, 0.96) 0s
+}
+.chat_mini_1{
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    align-content: center;
+}
+.chat_mini_1_1{
+    width: 90%;
+    display: flex;
+    justify-content:flex-start;
+    align-content: center;
+    color: white;
+}
+.chat_mini_1_2{
+    width: 10%;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+}
+.chat_mini_1_2btn{
+    border: none;
+    background-color: transparent;
+}
+
+
+
+
