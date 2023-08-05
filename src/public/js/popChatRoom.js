@@ -52,7 +52,7 @@ $(document).on("ready", () => {
 });
 
 // 전송 버튼 ENTER 키 기능
-function susubmit(f){
+function submit(f){
   if(f.keyCode == 13){
       $c_chatting_form.submit(); 
   }
