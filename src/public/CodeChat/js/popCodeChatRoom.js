@@ -1,7 +1,7 @@
 const chatSocket = io("/chat"); // io 함수는 알아서 socket.io를 실행하고 서버를 찾습니다.
 
 const $chat_leave = document.getElementById("chat_leave");
-const $chat_leave_btn = $chat_leave.querySelector(".chat_leave_btn"); // 나가기 버튼
+const $chat_leave_btn = $chat_leave.querySelector("#chat_leave_btn"); // 나가기 버튼
 
 const $chat = document.getElementById("chat"); // 전체 div 채팅창 선택
 const $chat_1 = $chat.querySelector(".chat_1"); // 접근 1
@@ -148,6 +148,7 @@ Chat.init();
 
 // 방 떠나기 함수
 const handleLeaveRoom = () => {
+  chatSocket.disconnect()
   chatSocket.emit("leave_room", { room_name: roomName, nickname: nickname });
   const newUrl = `${window.location.origin}`;
   window.location.href = newUrl; // 나갈 때 방 입장 전 페이지로 이동

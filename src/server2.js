@@ -21,15 +21,28 @@ nunjucks.configure("src/views", {
 });
 
 app.set("views", __dirname + "/views");
+app.use("/public", express.static(path.join(__dirname, "public")));
+
 app.use(
-  "/public",
-  express.static(path.join(__dirname, "public"), {
+  "/CodeChat/public/CodeChat",
+  express.static(path.join(__dirname, "public/CodeChat"), {
     setHeaders: (res, filePath) => {
       const mimeType = mime.getType(filePath);
       res.setHeader("Content-Type", mimeType);
     },
   })
 );
+
+app.use(
+  "/CodeArena/public/CodeArena",
+  express.static(path.join(__dirname, "public/CodeArena"), {
+    setHeaders: (res, filePath) => {
+      const mimeType = mime.getType(filePath);
+      res.setHeader("Content-Type", mimeType);
+    },
+  })
+);
+
 // "Chat" namespace에 접속한 클라이언트 처리
 ChatNamespace.on("connection", (socket) => {
   const rooms = new Map(); // 방 정보를 저장할 Map
@@ -59,6 +72,7 @@ ChatNamespace.on("connection", (socket) => {
   // 함수 정의 끝
 
   console.log("Chat 네임스페이스에 클라이언트가 연결되었습니다.");
+  console.log("입장하기 전 소켓이 들어간 방", socket.rooms);
   socket.onAny((event) => {
     console.log(`backSocket Event: ${event}`);
   });
@@ -114,16 +128,19 @@ ChatNamespace.on("connection", (socket) => {
       socket["room_name"] = room_name; // 소캣 객체에 "room_name"이라는 속성 추가
 
       socket.join(room_name); // 방에 입장하기
+      console.log("입장한 후 소켓이 들어간 방", socket.rooms);
       // const user_count = countRoomUsers(room_name);
     }
   );
 
   socket.on("disconnecting", () => {
     console.log("서버 disconnecting 이벤트 활성화");
+    console.log("disconnecting 이후 ", socket.rooms);
   });
 
-  socket.on("disconnet", () => {
+  socket.on("disconnect", () => {
     console.log("서버 disconnect 이벤트 활성화");
+    console.log("disconnect 이후 ", socket.rooms);
   });
 });
 
