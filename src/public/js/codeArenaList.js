@@ -190,33 +190,74 @@ const chatSocket = io("/CodeArena");
 
 const $make_room_form = document.getElementById("make_room_form"); // 방 정보 입력 폼
 const $room_name = document.getElementById("room_name"); // 방 이름 입력 input
-const $chat_method = document.getElementById("chat_method"); // 방의 채팅 방식
-const $dev_lang = document.getElementById("dev_lang"); // 방의 채팅 방식
+const $chatRoomMethod = document.getElementById("chatRoomMethod"); // 방의 채팅 방식 select
+const $dev_lang = document.getElementById("dev_lang"); // 방의 언어 방식 select
 
 // 방 입장 함수
 const handleRoomSubmit = (event) => {
   event.preventDefault();
   const room_name = $room_name.value;
-  const chat_method = $chat_method.value;
+  const chatRoomMethod = $chatRoomMethod.value;
   const dev_lang = $dev_lang.value;
-  console.log(room_name);
-  console.log(chat_method);
-  console.log(dev_lang);
   const nickname = "랭킹 1위"; // 닉네임 DB 연결 대기중
   localStorage.setItem("roomName", room_name); // frontChat과 roomName을 공유하기위해서 localStorage에 저장
+
+  chatSocket.emit("create_room", {
+    room_name: room_name,
+    chatRoomMethod: chatRoomMethod,
+    dev_lang: dev_lang,
+  });
 
   console.log("방 핸들 활성화");
   chatSocket.emit("enter_room", {
     room_name: room_name,
     nickname: nickname,
-    chat_method: chat_method,
+    chatRoomMethod: chatRoomMethod,
     dev_lang: dev_lang,
   });
   chatSocket.emit("welcome", { room_name: room_name, nickname: nickname });
-  const newUrl = `${
-    window.location.origin
-  }/CodeArena/chatroom/${encodeURIComponent(room_name)}`;
-  window.location.href = newUrl;
+
+  setTimeout(() => {
+    const newUrl = `${
+      window.location.origin
+    }/CodeArena/chatroom/${encodeURIComponent(room_name)}`;
+    window.location.href = newUrl;
+  }, 5000)
+
 };
 
 $make_room_form.addEventListener("submit", handleRoomSubmit);
+
+// 방 목록에 새로운 방 추가하는 함수
+const addRoomToTable = (room) => {
+  console.log("addRoomToTable 함수 작동");
+  const newRow = document.createElement("tr");
+  newRow.id = "room_" + room.room_number;
+
+  // 방 정보를 td에 추가
+  newRow.innerHTML = `
+    <td>${room.room_number}</td>
+    <td>${room.chatRoomMethod}</td>
+    <td>${room.dev_lang}</td>
+    <th>
+      <a href="#">${room.room_name}</a>
+      <p>테스트</p>
+     </th>
+    <td>${room.createdBy}</td>
+    <td>${room.createdDate}</td>
+`;
+
+  // 새로운 행을 테이블의 맨 위에 추가
+  const $board_list = document.getElementById("board-list");
+  const $board_table = $board_list.querySelector(".board-table");
+  const $tbody = $board_table.querySelector("tbody");
+  $tbody.prepend(newRow);
+};
+
+chatSocket.on("update_room_list", (rooms) => {
+  console.log(rooms);
+  console.log("update_room_list 이벤트 프론트로 도착");
+  for (const room of rooms) {
+    addRoomToTable(room);
+  }
+});
