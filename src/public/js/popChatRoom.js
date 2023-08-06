@@ -64,7 +64,6 @@ $('textarea').on('keydown', function(event) {
     if (event.keyCode == 13)
         if (!event.shiftKey){
             event.preventDefault();
-            $('#testForm').submit();
         }
 });
 });
