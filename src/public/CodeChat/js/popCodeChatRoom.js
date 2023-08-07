@@ -1,4 +1,4 @@
-const chatSocket = io("/chat"); // io 함수는 알아서 socket.io를 실행하고 서버를 찾습니다.
+// const chatSocket = io("/CodeChat"); // io 함수는 알아서 socket.io를 실행하고 서버를 찾습니다.
 
 const $chat_leave = document.getElementById("chat_leave");
 const $chat_leave_btn = $chat_leave.querySelector("#chat_leave_btn"); // 나가기 버튼

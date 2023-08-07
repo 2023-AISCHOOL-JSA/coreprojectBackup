@@ -1,4 +1,4 @@
-const chatSocket = io("/CodeChat");
+
 // 페이징 js
 
 // 페이징 요소들을 가져오
@@ -207,13 +207,18 @@ function closeModal() {
 
 // ---------------------------------------------------------------------------------------------------------------------------------------------
 // socket.io 사용
-
+const chatSocket = io("/CodeChat");
 // 방의 이름을 입력받고 방에 입장할 수 있는 페이지 담당 js
 
 const $make_room_form = document.getElementById("make_room_form"); // 방 정보 입력 폼
 const $room_name = document.getElementById("room_name"); // 방 이름 입력 input
 const $chatRoomMethod = document.getElementById("chatRoomMethod"); // 방의 채팅 방식 select
 const $dev_lang = document.getElementById("dev_lang"); // 방의 언어 방식 select
+
+const $codeChatList = document.getElementById("codeChatList") // 채팅방 목록 페이지
+const $popCodeChat = document.getElementById("popCodeChat") // 채팅방 페이지
+
+$popCodeChat.style.display = "none"
 
 // 방 만들기 버튼 함수
 const handleRoomSubmit = (event) => {
@@ -240,13 +245,10 @@ const handleRoomSubmit = (event) => {
   });
 
   chatSocket.emit("welcome", { room_name: room_name, nickname: nickname });
+    // 페이지 이동
+  $codeChatList.style.display = "none";
+  $popCodeChat.style.display = ""
 
-  setTimeout(() => {
-    const newUrl = `${
-      window.location.origin
-    }/CodeChat/chatroom/${encodeURIComponent(room_name)}`;
-    window.location.href = newUrl;
-  }, 5000);
 };
 // 방 만들기 버튼  함수 끝
 // 방 만들기 버튼 클릭 시
@@ -277,6 +279,14 @@ const addRoomToTable = (room) => {
   const $tbody = $board_table.querySelector("tbody");
   $tbody.prepend(newRow);
 };
+
+// 페이지 이동 시 웹 소켓 연결 끊지 않기
+window.addEventListener('beforeunload', (event) => {
+  event.preventDefault();
+  // 웹 소켓 연결 끊지 않음
+  event.returnValue = '';
+});
+
 
 chatSocket.on("update_room_list", (rooms) => {
   console.log(rooms);

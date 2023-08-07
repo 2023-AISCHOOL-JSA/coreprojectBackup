@@ -9,6 +9,7 @@ const mime = require("mime");
 const page = require("./router/page");
 app.use(page);
 
+// 네임스페이스로 io 서버 분리 /CodeChat, /CodeArena
 const ChatNamespace = io.of("/CodeChat");
 const ArenaNamespace = io.of("/CodeArena");
 
@@ -23,6 +24,7 @@ nunjucks.configure("src/views", {
 app.set("views", __dirname + "/views");
 app.use("/public", express.static(path.join(__dirname, "public")));
 
+// 네임스페이스 사용했기 때문에 파일 경로 지정
 app.use(
   "/CodeChat/public/CodeChat",
   express.static(path.join(__dirname, "public/CodeChat"), {
@@ -33,6 +35,7 @@ app.use(
   })
 );
 
+// 네임스페이스 사용했기 때문에 파일 경로 지정
 app.use(
   "/CodeArena/public/CodeArena",
   express.static(path.join(__dirname, "public/CodeArena"), {
@@ -47,7 +50,7 @@ app.use(
 ChatNamespace.on("connection", (socket) => {
   const rooms = new Map(); // 방 정보를 저장할 Map
   const usedRoomNumbers = new Set(); // 사용된 방 번호를 저장하는 Set
-
+  
   // 함수 정의
   // 방의 인원수를 세는 함수
   // const countRoomUsers = (room_name) => {
@@ -142,6 +145,7 @@ ChatNamespace.on("connection", (socket) => {
     console.log("서버 disconnect 이벤트 활성화");
     console.log("disconnect 이후 ", socket.rooms);
   });
+
 });
 
 // -------------------------------------------------------- CodeArena 시작 ----------------------------------------------------------------------------------
@@ -223,6 +227,7 @@ ArenaNamespace.on("connection", (socket) => {
       // console.log("enter_room의 nickname", nickname);
       // console.log("enter_room의 chatRoomMethod", chatRoomMethod);
       // console.log("enter_room의 dev_lang", dev_lang);
+      room_name = socket.handshake.url.replace("/CodeChat/", "");
 
       socket["room_name"] = room_name; // 소캣 객체에 "room_name"이라는 속성 추가
 
