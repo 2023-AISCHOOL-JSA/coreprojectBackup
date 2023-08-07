@@ -69,7 +69,7 @@ ChatNamespace.on("connection", (socket) => {
 
   // 방의 인원수를 세는 함수
   const countRoomUsers = (room_name) => {
-    return io.of("/CodeChat").sockets.adapter.rooms.get(room_name)?.size || 0;
+    return io.of("/CodeChat").adapter.rooms.get(room_name)?.size || 0;
   };
 
   // 함수 정의 끝
@@ -132,9 +132,13 @@ ChatNamespace.on("connection", (socket) => {
 
       socket.join(room_name); // 방에 입장하기
       console.log("입장한 후 소켓이 들어간 방", socket.rooms);
-      // const user_count = countRoomUsers(room_name);
+      const user_count = countRoomUsers(room_name);
+      console.log(user_count);
+      io.of("/CodeChat").to(room_name).emit("user_count", {user_count : user_count})
+      socket.emit("welcome", {nickname : nickname})
     }
   );
+
 
   socket.on("disconnecting", () => {
     console.log("서버 disconnecting 이벤트 활성화");

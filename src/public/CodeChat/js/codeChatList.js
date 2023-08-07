@@ -215,8 +215,20 @@ const $room_name = document.getElementById("room_name"); // 방 이름 입력 in
 const $chatRoomMethod = document.getElementById("chatRoomMethod"); // 방의 채팅 방식 select
 const $dev_lang = document.getElementById("dev_lang"); // 방의 언어 방식 select
 
+
 const $codeChatList = document.getElementById("codeChatList") // 채팅방 목록 페이지
 const $popCodeChat = document.getElementById("popCodeChat") // 채팅방 페이지
+
+const $chat = document.getElementById("chat"); // 전체 div 채팅창 선택
+const $chat_1 = $chat.querySelector(".chat_1"); // 접근 1
+const $chat_main = $chat_1.querySelector(".chat_main"); // 접근 2
+const $c_roomname = $chat_main.querySelector(".c_roomname"); // 방 이름으로 접근
+const $c_roomname_1 = $c_roomname.querySelector(".c_roomname_1"); // 방 이름을 접근 2
+const $c_content_name = $c_roomname_1.querySelector(".c_content_name")
+const $c_c_name = $c_content_name.querySelector(".c_c_name") // 방 이름을 적는 곳
+const $mini_room_name = document.getElementById("mini_room_name")
+const $c_content_num = $c_content_name.querySelector(".c_content_num") // 방 인원수 적는 곳
+const $mini_room_users = document.getElementById("mini_room_users")
 
 $popCodeChat.style.display = "none"
 
@@ -226,9 +238,12 @@ const handleRoomSubmit = (event) => {
   const room_name = $room_name.value;
   const chatRoomMethod = $chatRoomMethod.value;
   const dev_lang = $dev_lang.value;
+  console.log(room_name);
   console.log(chatRoomMethod);
   const nickname = "멘토가 되고싶은 자, 나에게로"; // 닉네임 DB 연결 대기중
-  localStorage.setItem("roomName", room_name); // frontChat과 roomName을 공유하기위해서 localStorage에 저장
+
+  $c_c_name.textContent = room_name // 채팅방 방 이름 연동
+  $mini_room_name.textContent = room_name // 축소 시 방 이름 연동
 
   chatSocket.emit("create_room", {
     room_name: room_name,
@@ -244,6 +259,13 @@ const handleRoomSubmit = (event) => {
     dev_lang: dev_lang,
   });
 
+  chatSocket.on("user_count", ({user_count}) => {
+    console.log("user_count 이벤트 도착");
+    console.log(user_count);
+    $c_content_num.textContent = `${user_count}/4`
+    $mini_room_users.textContent = `${user_count}/4`
+  })
+
   chatSocket.emit("welcome", { room_name: room_name, nickname: nickname });
     // 페이지 이동
   $codeChatList.style.display = "none";
@@ -253,6 +275,7 @@ const handleRoomSubmit = (event) => {
 // 방 만들기 버튼  함수 끝
 // 방 만들기 버튼 클릭 시
 $make_room_form.addEventListener("submit", handleRoomSubmit);
+
 
 // 방 목록에 새로운 방 추가하는 함수
 const addRoomToTable = (room) => {
@@ -280,12 +303,6 @@ const addRoomToTable = (room) => {
   $tbody.prepend(newRow);
 };
 
-// 페이지 이동 시 웹 소켓 연결 끊지 않기
-window.addEventListener('beforeunload', (event) => {
-  event.preventDefault();
-  // 웹 소켓 연결 끊지 않음
-  event.returnValue = '';
-});
 
 
 chatSocket.on("update_room_list", (rooms) => {
